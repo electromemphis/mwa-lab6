@@ -4,7 +4,12 @@
     </head>
 
     <body>
-        <form>
+
+
+        <% for(var err of errors){ %>
+            <%=err.msg %> <br>
+        <% } %>
+        <form action="/contactus" method="POST">
             <br>
             <label>Fullname :<input type="text" name="fullname" /></label><br><br>
             <label>Type:
@@ -16,6 +21,8 @@
             <label>Message:
                 <textarea name="message" rows="4" cols="50"></textarea>
             </label>
+            <br><br>
+            <input type="submit" />
         </form>
     </body>
 </html>
