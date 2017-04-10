@@ -6,12 +6,23 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var lessMiddleware = require('less-middleware');
 var helmet = require('helmet');
+const session = require('express-session');
+const csrf = require('csurf');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 var contactus = require('./routes/contactus');
 
 var app = express();
+
+app.use(session({
+  secret: 'My Secret Cookie',
+  cookie: {
+    httpOnly: true,
+    secure: true
+  }
+}));
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -31,8 +42,10 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/contactus', contactus);
 
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
+  console.log("ERROR 1...");
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
@@ -40,6 +53,7 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
+  console.log("ERROR 2......");
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
